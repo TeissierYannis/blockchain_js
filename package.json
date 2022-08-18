@@ -19,5 +19,8 @@
   "homepage": "https://github.com/TeissierYannis/blockchain_js#readme",
   "devDependencies": {
     "jest": "^28.1.3"
+  },
+  "dependencies": {
+    "hex-to-binary": "^1.0.1"
   }
 }
