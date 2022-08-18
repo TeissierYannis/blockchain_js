@@ -1,10 +1,5 @@
 const PubNub = require("pubnub/src/titanium");
-
-const CREDENTIALS = {
-    publishKey: '',
-    subscribeKey: '',
-    secretKey: '',
-}
+const CREDENTIALS = require("./keys");
 
 const CHANNELS = {
     TEST: 'TEST'
