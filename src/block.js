@@ -1,4 +1,4 @@
-const {GENESIS_DATA} = require("../config");
+const {GENESIS_DATA, MINE_RATE} = require("../config");
 const cryptoHash = require("./crypto-hash");
 
 /**
@@ -12,12 +12,16 @@ class Block {
      * @param lastHash hash of the block before.
      * @param hash hash of the block.
      * @param data data of the block.
+     * @param nonce nonce
+     * @param difficulty difficulty
      */
-    constructor({ timestamp, lastHash, hash, data }) {
+    constructor({ timestamp, lastHash, hash, data, nonce, difficulty }) {
         this.timestamp = timestamp;
         this.lastHash = lastHash;
         this.hash = hash;
         this.data = data;
+        this.nonce = nonce;
+        this.difficulty = difficulty;
     }
 
     /**
@@ -37,16 +41,44 @@ class Block {
      * @returns {Block}
      */
     static mineBlock({ lastBlock, data }) {
-
-        const timestamp = Date.now();
         const lastHash = lastBlock.hash;
+        let hash, timestamp;
+        let { difficulty } = lastBlock;
+        let nonce = 0;
+
+        do {
+            nonce++;
+            timestamp = Date.now();
+            difficulty = this.adjustDifficulty({ originalBlock: lastBlock, timestamp });
+            hash = cryptoHash(timestamp, lastHash, data, nonce, difficulty);
+        } while (hash.substring(0, difficulty) !== '0'.repeat(difficulty));
 
         return new this({
             timestamp: Date.now(),
             lastHash: lastBlock.hash,
             data,
-            hash: cryptoHash(timestamp, lastHash, data)
+            difficulty,
+            nonce,
+            hash
         });
+    }
+
+    /**
+     * Adjust the difficulty
+     *
+     * @param originalBlock block.
+     * @param timestamp timestamp.
+     *
+     * @returns {number|*}
+     */
+    static adjustDifficulty({ originalBlock, timestamp }) {
+        const { difficulty } = originalBlock;
+
+        if (difficulty < 1) return 1;
+
+        if ((timestamp - originalBlock.timestamp) > MINE_RATE ) return difficulty - 1;
+
+        return difficulty + 1;
     }
 }
 
