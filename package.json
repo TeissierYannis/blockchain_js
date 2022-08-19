@@ -10,7 +10,8 @@
     "dev:peer": "cross-env GENERATE_PEER_PORT=true nodemon index.js",
     "start:dev": "nodemon index.js",
     "start:test": "jest --watchAll",
-    "start:prod": "node index.js"
+    "start:prod": "node index.js",
+    "build:client": "parcel build client/src/index.html --out-dir client/dist"
   },
   "repository": {
     "type": "git",
@@ -33,7 +34,10 @@
     "elliptic": "^6.5.4",
     "express": "^4.18.1",
     "hex-to-binary": "^1.0.1",
+    "parcel-bundler": "^1.12.5",
     "pubnub": "^4.21.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "request": "^2.88.2",
     "uuid": "^8.3.2"
   }
