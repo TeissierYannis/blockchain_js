@@ -5,7 +5,7 @@ const cryptoHash = (...inputs) => {
       'sha256',
     );
 
-    hash.update(inputs.sort().join(' '));
+    hash.update(inputs.map(input => JSON.stringify(input)).sort().join(' '));
 
     return hash.digest('hex');
 };
