@@ -25,6 +25,24 @@ class Wallet {
             amount
         });
     }
+
+    static calculateBalance({ chain, address}) {
+        let outputsTotal = 0;
+
+        for (let i = chain.length - 1; i >= 0; i--) {
+            const block = chain[i];
+
+            for (let transaction of block.data) {
+                const addressOutput = transaction.outputMap[address];
+
+                if (addressOutput) {
+                    outputsTotal += addressOutput;
+                }
+            }
+        }
+
+        return STARTING_BALANCE + outputsTotal;
+    }
 }
 
 module.exports = Wallet;

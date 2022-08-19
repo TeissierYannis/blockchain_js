@@ -1,7 +1,7 @@
 const Block = require('./block');
 const {cryptoHash} = require("../util");
 
-class Index {
+class Blockchain {
     constructor() {
         this.chain = [Block.genesis()];
     }
@@ -15,18 +15,19 @@ class Index {
         this.chain.push(newBlock);
     }
 
-    replaceChain(chain) {
+    replaceChain(chain, onSuccess) {
 
         if(chain.length <= this.chain.length) {
             console.error('The incoming chain must be longer');
             return;
         }
 
-        if(!Index.isValidChain(chain)) {
+        if(!Blockchain.isValidChain(chain)) {
             console.error('The incoming chain must be valid');
             return;
         }
 
+        if (onSuccess) onSuccess();
         console.log('Replacing chain with', chain);
         this.chain = chain;
     }
@@ -52,4 +53,4 @@ class Index {
     }
 }
 
-module.exports = Index;
+module.exports = Blockchain;
