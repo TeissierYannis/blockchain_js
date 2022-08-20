@@ -6,12 +6,14 @@
   "scripts": {
     "test": "jest --watchAll",
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "npm run dev:client && nodemon index.js",
     "dev:peer": "cross-env GENERATE_PEER_PORT=true nodemon index.js",
     "start:dev": "nodemon index.js",
     "start:test": "jest --watchAll",
     "start:prod": "node index.js",
-    "build:client": "parcel build client/src/index.html --out-dir client/dist"
+    "build:client": "npm run clean && parcel build client/src/index.html --out-dir client/dist",
+    "dev:client": "npm run clean & parcel client/src/index.html --out-dir client/dist",
+    "clean": "rm -rf .cache client/dist"
   },
   "repository": {
     "type": "git",
@@ -27,9 +29,20 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "jest": "^28.1.3",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "typescript": "^4.7.4"
   },
   "dependencies": {
+    "@types/jest": "^28.1.7",
+    "@types/node": "^18.7.6",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "axios": "^0.27.2",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "body-parser": "^1.20.0",
     "elliptic": "^6.5.4",
     "express": "^4.18.1",
@@ -38,6 +51,7 @@
     "pubnub": "^4.21.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-json-tree": "^0.17.0",
     "request": "^2.88.2",
     "uuid": "^8.3.2"
   }
